@@ -1,0 +1,3 @@
+# Requirements for Internet Cafe Server
+customtkinter
+pyodbc>=5.0.0
