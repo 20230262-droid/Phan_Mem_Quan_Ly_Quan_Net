@@ -1,0 +1,14 @@
+D:\Xây dựng phần mềm quản lý quán net tích hợp AI hỗ trợ quản lý và phân tích\Ket_noi\Client\obj\Debug\net6.0-windows\Client.GeneratedMSBuildEditorConfig.editorconfig
+D:\Xây dựng phần mềm quản lý quán net tích hợp AI hỗ trợ quản lý và phân tích\Ket_noi\Client\obj\Debug\net6.0-windows\Client.AssemblyInfoInputs.cache
+D:\Xây dựng phần mềm quản lý quán net tích hợp AI hỗ trợ quản lý và phân tích\Ket_noi\Client\obj\Debug\net6.0-windows\Client.AssemblyInfo.cs
+D:\Xây dựng phần mềm quản lý quán net tích hợp AI hỗ trợ quản lý và phân tích\Ket_noi\Client\obj\Debug\net6.0-windows\Client.csproj.CoreCompileInputs.cache
+D:\Xây dựng phần mềm quản lý quán net tích hợp AI hỗ trợ quản lý và phân tích\Ket_noi\Client\bin\Debug\net6.0-windows\Client.exe
+D:\Xây dựng phần mềm quản lý quán net tích hợp AI hỗ trợ quản lý và phân tích\Ket_noi\Client\bin\Debug\net6.0-windows\Client.deps.json
+D:\Xây dựng phần mềm quản lý quán net tích hợp AI hỗ trợ quản lý và phân tích\Ket_noi\Client\bin\Debug\net6.0-windows\Client.runtimeconfig.json
+D:\Xây dựng phần mềm quản lý quán net tích hợp AI hỗ trợ quản lý và phân tích\Ket_noi\Client\bin\Debug\net6.0-windows\Client.dll
+D:\Xây dựng phần mềm quản lý quán net tích hợp AI hỗ trợ quản lý và phân tích\Ket_noi\Client\bin\Debug\net6.0-windows\Client.pdb
+D:\Xây dựng phần mềm quản lý quán net tích hợp AI hỗ trợ quản lý và phân tích\Ket_noi\Client\obj\Debug\net6.0-windows\Client.dll
+D:\Xây dựng phần mềm quản lý quán net tích hợp AI hỗ trợ quản lý và phân tích\Ket_noi\Client\obj\Debug\net6.0-windows\refint\Client.dll
+D:\Xây dựng phần mềm quản lý quán net tích hợp AI hỗ trợ quản lý và phân tích\Ket_noi\Client\obj\Debug\net6.0-windows\Client.pdb
+D:\Xây dựng phần mềm quản lý quán net tích hợp AI hỗ trợ quản lý và phân tích\Ket_noi\Client\obj\Debug\net6.0-windows\Client.genruntimeconfig.cache
+D:\Xây dựng phần mềm quản lý quán net tích hợp AI hỗ trợ quản lý và phân tích\Ket_noi\Client\obj\Debug\net6.0-windows\ref\Client.dll
