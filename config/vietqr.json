@@ -1,0 +1,7 @@
+{
+  "bank_bin": "970436",
+  "account_no": "0123456789",
+  "account_name": "QUAN NET TEN HIEN THI",
+  "template": "compact2",
+  "note": "Điền bank_bin (BIN ngân hàng), STK và tên chủ tài khoản. Xem BIN tại https://vietqr.io/"
+}

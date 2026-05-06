@@ -1,0 +1,12 @@
+{
+  "backend": "backend",
+  "users_json": "users.json",
+  "sqlserver": {
+    "server": "PHAN-DINH-THI\\SQLEXPRESS",
+    "database": "QuanNet",
+    "user": "",
+    "password": "",
+    "odbc_driver": "ODBC Driver 18 for SQL Server",
+    "trust_server_certificate": true
+  }
+}
