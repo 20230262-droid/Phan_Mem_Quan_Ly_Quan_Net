@@ -1,0 +1,548 @@
+
+# 1. GIỚI THIỆU ĐỀ TÀI
+
+Mô tả hệ thống:
+
+* Đây là module AI tích hợp vào phần mềm quản lý quán net theo mô hình client-server.
+* Hệ thống hỗ trợ:
+
+  * tự động trả lời khách hàng
+  * hỗ trợ quản lý quán net
+  * xử lý đặt món bằng AI
+  * phân tích dữ liệu hoạt động quán net
+  * hiển thị báo cáo AI
+
+Mô hình tổng quát:
+
+Client → Server → AI Module → AI API → Server → Client
+
+Giải thích vai trò:
+
+* Client gửi yêu cầu
+* Server quản lý dữ liệu và logic chính
+* AI module xử lý thông minh
+* AI API thực hiện NLP và tạo phản hồi
+
+Công nghệ sử dụng:
+
+* Python
+* PyQt6
+* urllib.request
+* threading
+* json
+* re (regex)
+* HTTP REST API
+* Groq API (OpenAI-compatible)
+
+---
+
+# 2. QUY TRÌNH PHÁT TRIỂN HỆ THỐNG CHAT_AI
+
+## GIAI ĐOẠN 1 — HÌNH THÀNH Ý TƯỞNG
+
+Mô tả:
+
+* Nhận thấy phần mềm quản lý quán net truyền thống thiếu tính tự động.
+* Nhân viên phải trả lời khách thủ công.
+* Đặt món và hỗ trợ khách còn chậm.
+* Mong muốn tích hợp AI để:
+
+  * tự động trả lời
+  * hỗ trợ quản lý
+  * phân tích dữ liệu
+  * tăng trải nghiệm khách hàng
+
+Giải thích lý do lựa chọn:
+
+* Python dễ tích hợp AI và networking.
+* PyQt6 giúp xây dựng giao diện desktop hiện đại.
+* Sử dụng AI API thay vì train model để giảm chi phí và tăng tốc phát triển.
+
+---
+
+## GIAI ĐOẠN 2 — THIẾT KẾ KIẾN TRÚC HỆ THỐNG
+
+Phân tích mô hình:
+
+Client ↔ Server ↔ AI Module ↔ AI API
+
+Giải thích:
+
+* Client chỉ gửi/nhận dữ liệu.
+* Server xử lý logic nghiệp vụ.
+* AI Module xử lý thông minh.
+* AI API thực hiện xử lý ngôn ngữ tự nhiên.
+
+Khái niệm:
+
+* Client-server architecture
+* Separation of Concerns
+* Modular Design
+
+Giải thích lý do thiết kế:
+
+* dễ mở rộng
+* dễ bảo trì
+* dễ nâng cấp AI
+
+---
+
+## GIAI ĐOẠN 3 — XÂY DỰNG HỆ THỐNG CHAT CƠ BẢN
+
+Mô tả:
+
+* Xây dựng chức năng chat giữa client và server.
+* Quản lý danh sách client.
+* Lưu lịch sử hội thoại.
+
+Phân tích code:
+
+```python
+server.clients[sock]["chat_history"]
+```
+
+Giải thích:
+
+* mỗi client có lịch sử riêng
+* phục vụ AI phân tích context
+
+Kỹ thuật:
+
+* socket communication
+* text protocol
+
+---
+
+## GIAI ĐOẠN 4 — TÍCH HỢP AI API
+
+Phân tích file:
+groq_client.py
+
+Code:
+
+```python
+urllib.request.urlopen()
+```
+
+Giải thích:
+
+* gửi HTTP POST request tới AI API
+* nhận phản hồi AI dạng JSON
+
+Header:
+
+```python
+Authorization: Bearer API_KEY
+```
+
+Body:
+
+```json
+{
+  "model": "llama-3.1-8b-instant",
+  "messages": [...]
+}
+```
+
+Phân tích:
+
+```python
+choices[0].message.content
+```
+
+Giải thích:
+
+* lấy nội dung AI trả về
+
+Khái niệm:
+
+* REST API
+* JSON communication
+
+---
+
+## GIAI ĐOẠN 5 — PHÁT TRIỂN AUTO REPLY AI
+
+Phân tích:
+
+```python
+on_client_message_pc_index()
+```
+
+Mô tả:
+
+* Khi client gửi tin nhắn:
+
+  * lưu history
+  * tạo timer
+  * nếu nhân viên chưa trả lời thì AI phản hồi
+
+Code:
+
+```python
+QTimer.singleShot(delay, ...)
+```
+
+Delay:
+
+```python
+AUTO_REPLY_DELAY_MS = 10000
+```
+
+Giải thích:
+
+* tránh spam AI
+* ưu tiên nhân viên thật
+* tăng tính tự nhiên
+
+---
+
+## GIAI ĐOẠN 6 — XÂY DỰNG CƠ CHẾ ĐỒNG BỘ TIMER
+
+Phân tích:
+
+```python
+self._gen[pc_index] += 1
+```
+
+và:
+
+```python
+if self._gen.get(pc_index) != gen:
+    return
+```
+
+Giải thích:
+
+* vô hiệu hóa timer cũ
+* tránh AI trả lời sai thời điểm
+* quản lý trạng thái hội thoại
+
+Khái niệm:
+
+* event-driven
+* state management
+* chống race condition cơ bản
+
+---
+
+## GIAI ĐOẠN 7 — TỐI ƯU CONTEXT CHO AI
+
+Mô tả:
+Ban đầu AI trả lời chưa thông minh do thiếu dữ liệu ngữ cảnh.
+
+Sau đó hệ thống được nâng cấp bằng:
+
+* SYSTEM_PROMPT
+* menu context
+* session context
+* history context
+
+Phân tích:
+
+```python
+messages = _history_to_messages(...)
+```
+
+Các hàm liên quan:
+
+```python
+_format_menu_context()
+_format_session_context()
+_parse_order_history()
+```
+
+Giải thích:
+
+* AI biết menu quán
+* AI biết số dư khách
+* AI nhớ lịch sử chat
+* AI trả lời theo ngữ cảnh
+
+Khái niệm:
+
+* Context-aware AI
+* Prompt Engineering
+
+---
+
+## GIAI ĐOẠN 8 — XÂY DỰNG AI ĐẶT MÓN
+
+Mô tả:
+Ban đầu AI chỉ chat.
+Sau đó nâng cấp thêm:
+
+* phát hiện yêu cầu đặt món
+* parse dữ liệu
+* gửi server xử lý
+
+Phân tích:
+
+```python
+_looks_like_order_request()
+```
+
+Giải thích:
+
+* dùng regex phát hiện yêu cầu đặt món
+
+Ví dụ:
+
+* “2 trà sữa”
+* “cho tôi 1 mì”
+* “mua 2 nước”
+
+Sau đó:
+
+```python
+_extract_order_items()
+```
+
+AI trả JSON:
+
+```json
+{
+  "items":[
+    {"id":1,"qty":2}
+  ]
+}
+```
+
+Parse:
+
+```python
+json.loads()
+```
+
+Gửi server:
+
+```python
+ORDER_SUBMIT:{...}
+```
+
+Giải thích:
+
+* AI xử lý ngôn ngữ tự nhiên
+* server xử lý nghiệp vụ thật
+
+Khái niệm:
+
+* rule-based + AI hybrid
+* NLP
+* structured data extraction
+
+---
+
+## GIAI ĐOẠN 9 — TỐI ƯU HIỆU NĂNG BẰNG ĐA LUỒNG
+
+Mô tả:
+Ban đầu gọi AI trực tiếp làm lag giao diện.
+
+Giải pháp:
+
+```python
+threading.Thread(target=worker)
+```
+
+Giải thích:
+
+* AI chạy ở luồng phụ
+* tránh block GUI
+
+Sau đó:
+
+```python
+reply_ready.emit(...)
+```
+
+và:
+
+```python
+reply_ready.connect(...)
+```
+
+Giải thích:
+
+* signal-slot mechanism
+* thread phụ không thao tác GUI trực tiếp
+* gửi dữ liệu an toàn về main thread
+
+Khái niệm:
+
+* Multi-threading
+* Event-driven architecture
+
+---
+
+## GIAI ĐOẠN 10 — PHÁT TRIỂN MODULE PHÂN TÍCH AI
+
+Phân tích class:
+
+```python
+class AIAnalysisDialog(QDialog)
+```
+
+Giải thích:
+
+* popup hiển thị báo cáo AI
+
+Thư viện sử dụng:
+
+```python
+from PyQt6.QtWidgets import (
+    QDialog,
+    QVBoxLayout,
+    QHBoxLayout,
+    QTextEdit,
+    QPushButton,
+    QLabel,
+    QStyle,
+)
+```
+
+Giải thích:
+
+* QDialog: cửa sổ popup
+* QTextEdit: hiển thị báo cáo dài
+* QPushButton: xử lý thao tác
+* QLabel: tiêu đề
+* QStyle: icon hệ điều hành
+
+Phân tích:
+
+```python
+analysis_fn
+```
+
+Giải thích:
+
+* dependency injection
+* GUI tách khỏi business logic
+
+Chức năng:
+
+* refresh báo cáo
+* copy clipboard
+* xử lý lỗi
+
+Clipboard:
+
+```python
+QApplication.clipboard()
+```
+
+Temporary UI feedback:
+
+```python
+QTimer.singleShot(1500,...)
+```
+
+Giải thích:
+
+* hiển thị thông báo tạm thời
+* tăng UX
+
+---
+
+## GIAI ĐOẠN 11 — KIỂM THỬ VÀ HOÀN THIỆN
+
+Mô tả:
+
+* test nhiều client
+* test AI lỗi
+* test JSON sai
+* test mạng chậm
+* test spam tin nhắn
+
+Giải pháp:
+
+* try/except
+* validate JSON
+* generation timer
+* giới hạn history
+* setReadOnly(True)
+
+Giải thích:
+
+* tăng ổn định hệ thống
+* tránh crash
+* tăng trải nghiệm người dùng
+
+---
+
+# 3. PHÂN TÍCH LUỒNG HOẠT ĐỘNG TOÀN HỆ THỐNG
+
+Luồng thực tế:
+
+Client → Server → AI Module → AI API → Server → Client
+
+Giải thích chi tiết:
+
+1. Client gửi tin nhắn
+2. Server lưu chat_history
+3. Tạo timer AI
+4. Kiểm tra điều kiện auto reply
+5. Xây dựng context
+6. Gửi AI API
+7. Nhận AI response
+8. Nếu là đặt món → parse JSON
+9. Gửi ORDER_SUBMIT
+10. Trả phản hồi cho client
+
+---
+
+# 4. PHÂN TÍCH KỸ THUẬT VÀ KIẾN TRÚC
+
+Giải thích các kỹ thuật đã sử dụng:
+
+* Context-aware AI
+* Prompt Engineering
+* REST API
+* Multi-threading
+* Signal-slot
+* Dependency Injection
+* Event-driven architecture
+* Separation of Concerns
+* Client-server architecture
+
+Giải thích vai trò từng kỹ thuật trong hệ thống.
+
+---
+
+# 5. ƯU ĐIỂM HỆ THỐNG
+
+Phân tích:
+
+* AI hiểu ngôn ngữ tự nhiên
+* hỗ trợ tự động hóa
+* giao diện thân thiện
+* xử lý nghiệp vụ thực tế
+* kiến trúc module rõ ràng
+* dễ mở rộng
+* hỗ trợ quản lý quán net hiệu quả
+
+---
+
+# 6. HƯỚNG PHÁT TRIỂN TƯƠNG LAI
+
+Đề xuất:
+
+* tách AI thành microservice
+* dùng async thay threading
+* thêm caching
+* dashboard AI realtime
+* recommendation system
+* voice AI
+* phân tích hành vi khách hàng
+
+---
+
+# 7. KẾT LUẬN
+
+Viết kết luận theo hướng:
+
+* hệ thống không chỉ là chatbot
+* AI được tích hợp vào nghiệp vụ thực tế
+* kết hợp networking + GUI + AI + threading
+* có khả năng mở rộng thực tế
+* thể hiện tư duy thiết kế phần mềm hiện đại
